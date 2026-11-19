@@ -1,0 +1,21 @@
+{
+  "gelin": "Elif",
+  "damat": "Kerem",
+  "monogram": "E&K",
+  "tarih": "2027-06-12T18:00:00+03:00",
+  "tarih_yazi": "12 Haziran 2027 · Cumartesi",
+  "ust_satir": "Hayatımızın en güzel gününde",
+  "mekan": {
+    "ad": "Bahçe Köşkü",
+    "adres": "Kandilli, Üsküdar · İstanbul",
+    "harita": "https://maps.google.com/?q=Kandilli+Üsküdar"
+  },
+  "akis": [
+    {"saat": "17.30", "ad": "Karşılama", "ikon": "kadeh"},
+    {"saat": "18.00", "ad": "Nikâh", "ikon": "yuzuk"},
+    {"saat": "19.30", "ad": "Akşam yemeği", "ikon": "tabak"},
+    {"saat": "21.00", "ad": "İlk dans", "ikon": "nota"}
+  ],
+  "kiyafet": "Açık renkler ve bahçeye uygun rahat ayakkabı. Akşam serin olabilir, yanınıza bir şal alın.",
+  "lcv_son": "15 Mayıs 2027"
+}

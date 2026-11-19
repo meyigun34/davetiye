@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Elif &amp; Kerem · Davetiye</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Great+Vibes&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --fildisi:#F3ECE3; --kagit:#FAF6F0; --dantel:#FDFBF7; --golge:#CDBDAE;
+    --murdum:#4B2236; --murdum2:#3A1A2A; --murekkep:#4A3A3F; --soluk:#8C7A78;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#2a1820;height:100%}
+  body{font-family:"Cormorant Garamond",Georgia,serif;color:var(--murekkep);-webkit-font-smoothing:antialiased;overflow:hidden}
+  body.acik{overflow-y:auto}
+  #sahne{position:relative;max-width:440px;margin:0 auto;background:var(--fildisi);min-height:100%}
+
+  /* ---------- ZARF ---------- */
+  #zarf{position:fixed;inset:0;max-width:440px;margin:0 auto;z-index:20;perspective:1400px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+  .kapak{position:absolute;inset:0;transform-style:preserve-3d;backface-visibility:hidden;will-change:transform}
+  .kapak svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+  #k-sol{transform-origin:0 50%;filter:drop-shadow(2px 0 3px rgba(70,35,45,.18))}
+  #k-sag{transform-origin:100% 50%;filter:drop-shadow(-2px 0 3px rgba(70,35,45,.18))}
+  #k-alt{transform-origin:50% 100%;filter:drop-shadow(0 -2px 4px rgba(70,35,45,.22))}
+  #k-ust{transform-origin:50% 0;filter:drop-shadow(0 3px 5px rgba(70,35,45,.28))}
+  #zarf.aciliyor #k-ust{transition:transform 1.1s cubic-bezier(.55,.05,.35,1);transform:rotateX(178deg)}
+  #zarf.aciliyor #k-sol{transition:transform 1.1s cubic-bezier(.55,.05,.35,1) .45s;transform:rotateY(-178deg)}
+  #zarf.aciliyor #k-sag{transition:transform 1.1s cubic-bezier(.55,.05,.35,1) .55s;transform:rotateY(178deg)}
+  #zarf.aciliyor #k-alt{transition:transform 1.1s cubic-bezier(.55,.05,.35,1) .7s;transform:rotateX(-178deg)}
+  #zarf.bitti{opacity:0;pointer-events:none;transition:opacity .5s ease}
+  #muhur{position:absolute;left:50%;top:0;width:96px;height:96px;margin-left:-48px;transition:transform .45s cubic-bezier(.3,1.6,.5,1);z-index:5}
+  #zarf:active #muhur{transform:scale(.96)}
+  #zarf.aciliyor #muhur{transform:scale(1.08);transition:transform .25s ease}
+  #ipucu{position:absolute;left:0;right:0;text-align:center;font-style:italic;font-size:17px;letter-spacing:.06em;color:var(--soluk);animation:nabiz 2.2s ease-in-out infinite;z-index:4}
+  #zarf.aciliyor #ipucu{animation:none;opacity:0;transition:opacity .2s}
+  @keyframes nabiz{0%,100%{opacity:.45}50%{opacity:1}}
+
+  /* ---------- KART ---------- */
+  #kart{position:relative;height:100vh;height:100svh;overflow:hidden}
+  #kart svg{position:absolute;inset:0;width:100%;height:100%}
+  #kart-yazi{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 20%}
+  .ust-satir{font-size:13px;letter-spacing:.32em;text-transform:uppercase;color:var(--soluk)}
+  .isim{font-family:"Great Vibes",cursive;font-size:62px;line-height:1;color:var(--murdum);margin:2px 0}
+  .ve{font-family:"Great Vibes",cursive;font-size:34px;color:var(--soluk);line-height:1}
+  .tarih{margin-top:18px;font-size:15px;letter-spacing:.18em;text-transform:uppercase}
+  .cizgi{width:46px;height:1px;background:var(--golge);margin:16px auto}
+  .beli{opacity:0;transform:translateY(10px);transition:opacity 1s ease,transform 1s ease}
+  .beli.gorunur{opacity:1;transform:none}
+  #kaydir{position:absolute;bottom:4.5%;left:0;right:0;text-align:center;font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--soluk)}
+  #kaydir span{display:block;margin:6px auto 0;width:1px;height:26px;background:linear-gradient(var(--soluk),transparent);animation:ak 1.8s ease-in-out infinite}
+  @keyframes ak{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+  /* ---------- BÖLÜMLER ---------- */
+  section{position:relative;padding:64px 34px 70px;text-align:center}
+  section.koyu{background:var(--murdum) url(doku/murdum.png) 0 0/200px;color:#F1E6E0}
+  section.acik{background:var(--kagit) url(doku/kagit.png) 0 0/200px}
+  .serit{display:block;width:100%;height:30px;position:absolute;left:0;top:-1px}
+  h2{font-family:"Great Vibes",cursive;font-weight:400;font-size:46px;line-height:1.1;margin-bottom:6px}
+  section.koyu h2{color:#F6EDE6}
+  section.acik h2{color:var(--murdum)}
+  .alt{font-size:12px;letter-spacing:.3em;text-transform:uppercase;opacity:.7;margin-bottom:26px}
+  p.metin{font-size:19px;line-height:1.5}
+
+  .sayac{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:330px;margin:0 auto}
+  .sayac div{border:1px solid rgba(241,230,224,.25);padding:14px 0 10px;border-radius:2px}
+  .sayac b{display:block;font-weight:500;font-size:34px;line-height:1;font-variant-numeric:tabular-nums}
+  .sayac small{font-size:11px;letter-spacing:.2em;text-transform:uppercase;opacity:.7}
+
+  .mekan-ad{font-size:28px;font-weight:500;color:var(--murdum)}
+  .dugme{display:inline-block;margin-top:22px;padding:12px 26px;border:1px solid currentColor;font:inherit;font-size:13px;letter-spacing:.25em;text-transform:uppercase;color:inherit;text-decoration:none;background:transparent;cursor:pointer}
+  section.koyu .dugme{background:#F1E6E0;color:var(--murdum);border-color:#F1E6E0}
+
+  .akis{list-style:none;max-width:300px;margin:0 auto;position:relative;text-align:left}
+  .akis:before{content:"";position:absolute;left:52px;top:8px;bottom:8px;width:1px;background:var(--golge)}
+  .akis li{display:flex;align-items:center;gap:22px;padding:13px 0}
+  .akis .saat{width:44px;text-align:right;font-size:17px;font-variant-numeric:tabular-nums;color:var(--soluk)}
+  .akis .ikon{width:36px;height:36px;flex:none;border-radius:50%;background:var(--kagit);border:1px solid var(--golge);display:grid;place-items:center;margin-left:-8px;position:relative}
+  .akis .ikon svg{width:20px;height:20px;stroke:var(--murdum);fill:none;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round}
+  .akis .ad{font-size:21px;color:var(--murdum)}
+
+  form{max-width:320px;margin:0 auto;text-align:left}
+  label{display:block;font-size:12px;letter-spacing:.22em;text-transform:uppercase;opacity:.75;margin:18px 0 6px}
+  input[type=text],input[type=number],textarea{width:100%;background:transparent;border:0;border-bottom:1px solid rgba(241,230,224,.4);color:#F6EDE6;font:inherit;font-size:20px;padding:6px 0;outline:none;border-radius:0}
+  textarea{resize:none;height:60px}
+  .secim{display:flex;gap:10px}
+  .secim label{flex:1;margin:0;text-align:center;border:1px solid rgba(241,230,224,.35);padding:12px 4px;cursor:pointer;opacity:1;font-size:12px}
+  .secim input{display:none}
+  .secim input:checked+span{color:var(--murdum)}
+  .secim label:has(input:checked){background:#F1E6E0;color:var(--murdum)}
+  form .dugme{width:100%}
+  #tesekkur{display:none;font-size:22px;font-style:italic;padding:20px 0}
+
+  .kapanis{padding:80px 30px 90px}
+  .kapanis .isim{font-size:48px}
+  footer{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--soluk);padding:0 0 30px;text-align:center;background:var(--kagit) url(doku/kagit.png) 0 0/200px}
+</style>
+</head>
+<body>
+<!-- ortak desenler -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <radialGradient id="inci" cx="35%" cy="30%" r="75%">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset=".45" stop-color="#F4EEE8"/>
+      <stop offset="1" stop-color="#BFAFA6"/>
+    </radialGradient>
+    <radialGradient id="mum" cx="40%" cy="35%" r="70%">
+      <stop offset="0" stop-color="#FBF7F1"/>
+      <stop offset=".6" stop-color="#ECE3D8"/>
+      <stop offset="1" stop-color="#CDBFB1"/>
+    </radialGradient>
+    <linearGradient id="isik" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity=".22"/>
+      <stop offset="1" stop-color="#5a3040" stop-opacity=".10"/>
+    </linearGradient>
+    <pattern id="dantelDoku" width="240" height="240" patternUnits="userSpaceOnUse"><image href="doku/dantel.png" width="240" height="240"/></pattern>
+    <pattern id="altDoku" width="200" height="200" patternUnits="userSpaceOnUse"><image href="doku/alt.png" width="200" height="200"/></pattern>
+    <pattern id="kagitDoku" width="200" height="200" patternUnits="userSpaceOnUse"><image href="doku/kagit.png" width="200" height="200"/></pattern>
+    <filter id="yumusak" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="3"/></filter>
+    <filter id="mumF" x="-15%" y="-15%" width="130%" height="130%" color-interpolation-filters="sRGB">
+      <feColorMatrix in="SourceGraphic" type="luminanceToAlpha" result="h"/>
+      <feGaussianBlur in="h" stdDeviation="1.3" result="hb"/>
+      <feDiffuseLighting in="hb" surfaceScale="7" diffuseConstant="1.15" lighting-color="#F4ECE2" result="dl"><feDistantLight azimuth="225" elevation="48"/></feDiffuseLighting>
+      <feSpecularLighting in="hb" surfaceScale="7" specularConstant=".6" specularExponent="24" lighting-color="#FFFFFF" result="sl"><feDistantLight azimuth="225" elevation="52"/></feSpecularLighting>
+      <feComposite in="dl" in2="sl" operator="arithmetic" k2="1" k3=".75" result="m"/>
+      <feComposite in="m" in2="SourceAlpha" operator="in"/>
+    </filter>
+  </defs>
+</svg>
+
+<div id="zarf" aria-label="Davetiyeyi açmak için dokunun" role="button">
+  <div class="kapak" id="k-sol"></div>
+  <div class="kapak" id="k-sag"></div>
+  <div class="kapak" id="k-alt"></div>
+  <div class="kapak" id="k-ust"></div>
+  <div id="ipucu">açmak için dokunun</div>
+</div>
+
+<main id="sahne">
+  <div id="kart">
+    <svg id="kart-svg"></svg>
+    <div id="kart-yazi">
+      <div class="ust-satir beli" data-v="ust_satir"></div>
+      <div class="cizgi beli"></div>
+      <div class="isim beli" data-v="gelin"></div>
+      <div class="ve beli">&amp;</div>
+      <div class="isim beli" data-v="damat"></div>
+      <div class="tarih beli" data-v="tarih_yazi"></div>
+    </div>
+    <div id="kaydir" class="beli">kaydırın<span></span></div>
+  </div>
+
+  <section class="koyu" data-ust="#F3ECE3">
+    <h2 class="beli">Geri sayım</h2>
+    <div class="alt beli">büyük güne kalan</div>
+    <div class="sayac beli">
+      <div><b id="g">0</b><small>gün</small></div>
+      <div><b id="s">0</b><small>saat</small></div>
+      <div><b id="d">0</b><small>dakika</small></div>
+      <div><b id="sn">0</b><small>saniye</small></div>
+    </div>
+  </section>
+
+  <section class="acik" data-ust="#4B2236">
+    <h2 class="beli">Mekân</h2>
+    <div class="alt beli">nerede buluşuyoruz</div>
+    <div class="mekan-ad beli" data-v="mekan.ad"></div>
+    <p class="metin beli" data-v="mekan.adres"></p>
+    <a class="dugme beli" id="harita" target="_blank" rel="noopener">yol tarifi</a>
+  </section>
+
+  <section class="acik" data-ust="#FAF6F0" style="padding-top:30px">
+    <h2 class="beli">Günün akışı</h2>
+    <div class="alt beli">saat saat</div>
+    <ul class="akis" id="akis"></ul>
+  </section>
+
+  <section class="acik" data-ust="#FAF6F0" style="padding-top:30px">
+    <h2 class="beli">Kıyafet</h2>
+    <div class="alt beli">küçük bir not</div>
+    <p class="metin beli" data-v="kiyafet"></p>
+  </section>
+
+  <section class="koyu" data-ust="#FAF6F0">
+    <h2 class="beli">Katılım</h2>
+    <div class="alt beli"><span data-v="lcv_son"></span> tarihine kadar</div>
+    <form id="lcv" class="beli">
+      <label>adınız soyadınız</label>
+      <input type="text" name="ad" required autocomplete="name">
+      <label>geliyor musunuz</label>
+      <div class="secim">
+        <label><input type="radio" name="katilim" value="evet" checked><span>seve seve</span></label>
+        <label><input type="radio" name="katilim" value="hayir"><span>maalesef</span></label>
+      </div>
+      <label>kaç kişi</label>
+      <input type="number" name="kisi" min="1" max="6" value="1">
+      <label>bir notunuz varsa</label>
+      <textarea name="not"></textarea>
+      <button class="dugme" type="submit">gönder</button>
+    </form>
+    <div id="tesekkur">Teşekkür ederiz, cevabınız bize ulaştı.</div>
+  </section>
+
+  <section class="acik kapanis" data-ust="#4B2236">
+    <div class="ust-satir beli">sizi aramızda görmek dileğiyle</div>
+    <div class="cizgi beli"></div>
+    <div class="isim beli"><span data-v="gelin"></span> <span class="ve">&amp;</span> <span data-v="damat"></span></div>
+  </section>
+  <footer>dijital davetiye</footer>
+</main>
+
+<script>
+const NS = "http://www.w3.org/2000/svg";
+const el = (t, a = {}, p) => { const e = document.createElementNS(NS, t); for (const k in a) e.setAttribute(k, a[k]); if (p) p.appendChild(e); return e; };
+const al = (o, yol) => yol.split(".").reduce((x, k) => x && x[k], o);
+
+/* Kenar boyunca dantel tırtılı (doku/kenar.png, 24x30, kenar çizgisi y=8) + iç tarafa inci dizisi.
+   dis: kenarın hangi yana taştığı (+1 / -1, a->b yönüne göre sol/sağ normal) */
+function kenarDiz(g, a, b, dis, inciler = true) {
+  const dx = b[0]-a[0], dy = b[1]-a[1], L = Math.hypot(dx, dy), ux = dx/L, uy = dy/L;
+  const ox = -uy*dis, oy = ux*dis;            // dışa doğru birim
+  const n = Math.ceil(L/22), adim = L/n;
+  const kg = el("g", {}, g), ig = el("g", {}, g);
+  for (let i = 0; i < n; i++) {
+    const x = a[0] + ux*adim*i, y = a[1] + uy*adim*i;
+    // yerel x = kenar yönü, yerel y = dışa; birimin y=8 çizgisi kenara oturur
+    el("image", {href:"doku/kenar.png", width:24, height:30, x:0, y:-8, preserveAspectRatio:"none",
+      transform:`matrix(${ux*adim/22} ${uy*adim/22} ${ox} ${oy} ${x} ${y})`}, kg);
+    if (inciler) el("image", {href:"doku/inci.png", width:11, height:11, x: x + ux*adim*.5 - ox*7 - 5, y: y + uy*adim*.5 - oy*7 - 5}, ig);
+  }
+}
+
+function muhur(g, cx, cy, R, mono) {
+  // yükseklik haritası gri tonda çizilir, filtre ışıkla kabartır
+  let d = "";
+  for (let i = 0; i <= 64; i++) {
+    const a = i/64*Math.PI*2, rr = R*(1 + .055*Math.sin(a*5+1) + .035*Math.sin(a*11+2) + .022*Math.sin(a*19));
+    d += (i ? "L" : "M") + (cx + Math.cos(a)*rr).toFixed(1) + " " + (cy + Math.sin(a)*rr).toFixed(1);
+  }
+  el("path", {d: d+"Z", fill:"#2a1218", opacity:".35", filter:"url(#yumusak)", transform:"translate(2 4)"}, g);
+  const h = el("g", {filter:"url(#mumF)"}, g);
+  el("path", {d: d+"Z", fill:"#9a9a9a"}, h);                                         // gövde
+  el("circle", {cx, cy, r:R*.86, fill:"none", stroke:"#cfcfcf", "stroke-width":R*.09}, h); // dış sırt
+  el("circle", {cx, cy, r:R*.74, fill:"#6e6e6e"}, h);                                 // bastırılmış iç
+  for (let i = 0; i < 28; i++) { const a = i/28*Math.PI*2; el("circle", {cx:cx+Math.cos(a)*R*.67, cy:cy+Math.sin(a)*R*.67, r:R*.022, fill:"#bdbdbd"}, h); }
+  const t = el("text", {x:cx, y:cy+R*.17, "text-anchor":"middle", "font-family":"Cormorant Garamond", "font-style":"italic", "font-weight":"500", "font-size":R*.5, "letter-spacing":R*.02, fill:"#dedede"}, h); t.textContent = mono;
+}
+
+function kapak(id, noktalar, ton, ekle) {
+  const kap = document.getElementById(id); kap.innerHTML = "";
+  const s = el("svg", {}, kap);
+  const pts = noktalar.map(p => p.join(",")).join(" ");
+  el("polygon", {points: pts, fill: "url(#altDoku)"}, s);
+  el("polygon", {points: pts, fill: "url(#dantelDoku)"}, s);
+  el("polygon", {points: pts, fill: "url(#isik)"}, s);
+  if (ton) el("polygon", {points: pts, fill:"#4a2030", opacity: ton}, s);
+  if (ekle) ekle(s);
+  return s;
+}
+
+function zarfKur(V) {
+  const z = document.getElementById("zarf"), w = z.clientWidth, h = z.clientHeight;
+  if (!w || !h) return;
+  const cx = w/2, cyU = h*.53, R = Math.min(w*.15, 62);
+  kapak("k-sol", [[0,0],[0,h],[cx*1.02,h*.5]], .10);
+  kapak("k-sag", [[w,0],[w,h],[cx*.98,h*.5]], .10);
+  kapak("k-alt", [[0,h],[w,h],[cx,h*.47]], .04, s => { kenarDiz(s, [0,h], [cx,h*.47], -1); kenarDiz(s, [cx,h*.47], [w,h], -1); });
+  kapak("k-ust", [[0,0],[w,0],[cx,cyU]], 0, s => { kenarDiz(s, [w,0], [cx,cyU], -1); kenarDiz(s, [cx,cyU], [0,0], -1); muhur(s, cx, cyU - R*.35, R, V.monogram); });
+  document.getElementById("ipucu").style.top = (h*.78) + "px";
+}
+
+function kartKur() {
+  const k = document.getElementById("kart"), s = document.getElementById("kart-svg");
+  const w = k.clientWidth, h = k.clientHeight; if (!w || !h) return; s.innerHTML = "";
+  s.setAttribute("viewBox", `0 0 ${w} ${h}`);
+  el("rect", {width:w, height:h, fill:"url(#altDoku)"}, s);
+  el("rect", {width:w, height:h, fill:"url(#dantelDoku)"}, s);
+  const cx = w/2, cy = h*.47, rx = w*.40, ry = h*.36;
+  el("ellipse", {cx, cy:cy+3, rx:rx+4, ry:ry+4, fill:"#3a1a24", opacity:".25", filter:"url(#yumusak)"}, s);
+  el("ellipse", {cx, cy, rx, ry, fill:"url(#kagitDoku)"}, s);
+  el("ellipse", {cx, cy, rx:rx-26, ry:ry-26, fill:"none", stroke:"#E3D7CB", "stroke-width":".8"}, s);
+  // oval kenarı: tırtıllar içe (kağıda) doğru taşar
+  const n = Math.round(Math.PI*(3*(rx+ry) - Math.sqrt((3*rx+ry)*(rx+3*ry)))/21);
+  const P = i => { const a = i/n*Math.PI*2; return [cx + Math.cos(a)*rx, cy + Math.sin(a)*ry]; };
+  const g = el("g", {}, s);
+  for (let i = 0; i < n; i++) kenarDiz(g, P(i), P(i+1), 1);
+}
+
+/* Bölüm başına dantel şerit: üstteki rengin tırtıllı ucu */
+function seritler() {
+  document.querySelectorAll("section[data-ust]").forEach(sec => {
+    sec.querySelector(".serit")?.remove();
+    const w = sec.clientWidth, renk = sec.dataset.ust; if (!w) return;
+    if (renk.toLowerCase() === getComputedStyle(sec).backgroundColor) return;
+    const s = el("svg", {class:"serit", viewBox:`0 0 ${w} 30`, preserveAspectRatio:"none"});
+    el("rect", {width:w, height:11, fill:renk}, s);
+    const n = Math.ceil(w/18), arka = getComputedStyle(sec).backgroundColor;
+    for (let i = 0; i <= n; i++) {
+      const x = i*18;
+      el("circle", {cx:x, cy:11, r:9.5, fill:renk}, s);
+      el("circle", {cx:x, cy:13, r:2.4, fill:arka}, s);
+      if (i < n) el("image", {href:"doku/inci.png", x:x+5.5, y:1, width:7, height:7}, s);
+    }
+    sec.prepend(s);
+  });
+}
+
+const IKON = {
+  kadeh:'<path d="M7 3h4l-.5 5a1.5 1.5 0 0 1-3 0zM9 9.5V16M7 16h4M13 3h4l-.5 5a1.5 1.5 0 0 1-3 0zM15 9.5V16M13 16h4"/>',
+  yuzuk:'<circle cx="9" cy="13" r="5"/><circle cx="15" cy="13" r="5"/><path d="M7.5 6l1.5-2 1.5 2"/>',
+  tabak:'<circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="3.5"/><path d="M3 4v5M3 9v11M21 4c-1.5 1-1.5 5 0 6v10"/>',
+  nota:'<path d="M9 17V5l10-2v12"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="15" r="2"/>'
+};
+
+async function basla() {
+  const V = await fetch("veri.json").then(r => r.json());
+  document.title = `${V.gelin} & ${V.damat}`;
+  document.querySelectorAll("[data-v]").forEach(e => e.textContent = al(V, e.dataset.v));
+  document.getElementById("harita").href = V.mekan.harita;
+  document.getElementById("akis").innerHTML = V.akis.map(a =>
+    `<li class="beli"><span class="saat">${a.saat}</span><span class="ikon"><svg viewBox="0 0 24 24">${IKON[a.ikon]||""}</svg></span><span class="ad">${a.ad}</span></li>`).join("");
+
+  if (document.fonts) await document.fonts.ready;
+  zarfKur(V); kartKur(); seritler();
+  addEventListener("resize", () => { if (!document.body.classList.contains("acik")) zarfKur(V); kartKur(); seritler(); });
+
+  // geri sayım
+  const hedef = new Date(V.tarih).getTime();
+  const iki = n => String(n).padStart(2, "0");
+  const say = () => { let f = Math.max(0, hedef - Date.now())/1000;
+    g.textContent = Math.floor(f/86400); s.textContent = iki(Math.floor(f%86400/3600)); d.textContent = iki(Math.floor(f%3600/60)); sn.textContent = iki(Math.floor(f%60)); };
+  say(); setInterval(say, 1000);
+
+  // görününce belir
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("gorunur"); io.unobserve(e.target); } }), {threshold:.2});
+  document.querySelectorAll("section .beli, .akis .beli").forEach(e => io.observe(e));
+
+  // zarfı aç
+  const z = document.getElementById("zarf");
+  z.addEventListener("click", () => {
+    if (z.classList.contains("aciliyor")) return;
+    navigator.vibrate?.(12);
+    z.classList.add("aciliyor");
+    setTimeout(() => {
+      document.querySelectorAll("#kart .beli").forEach((e, i) => setTimeout(() => e.classList.add("gorunur"), 180*i));
+    }, 1300);
+    setTimeout(() => { z.classList.add("bitti"); document.body.classList.add("acik"); }, 1950);
+  });
+
+  // LCV (pilot: sunucu yok, cevap yerelde gösterilir)
+  document.getElementById("lcv").addEventListener("submit", ev => {
+    ev.preventDefault();
+    const veri = Object.fromEntries(new FormData(ev.target));
+    console.log("LCV", veri);
+    ev.target.style.display = "none";
+    document.getElementById("tesekkur").style.display = "block";
+  });
+
+  if (location.hash === "#acik") z.click();
+}
+basla();
+</script>
+</body>
+</html>
